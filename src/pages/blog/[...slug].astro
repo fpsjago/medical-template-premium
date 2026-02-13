@@ -34,8 +34,10 @@ const baseUrl = import.meta.env.BASE_URL;
 
       <!-- Post Header -->
       <header class="postHeader" data-reveal>
-        <div class="postCategory">{post.data.category}</div>
-        <h1>{post.data.title}</h1>
+        <div class="postCategory" transition:name={`category-${post.slug}`}>
+          {post.data.category}
+        </div>
+        <h1 transition:name={`title-${post.slug}`}>{post.data.title}</h1>
         <div class="postMeta">
           <span class="postAuthor">By {post.data.author}</span>
           <span class="postDate">{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
@@ -44,7 +46,12 @@ const baseUrl = import.meta.env.BASE_URL;
 
       <!-- Featured Image -->
       <div class="featuredImage" data-reveal="scale">
-        <img src={post.data.image} alt={post.data.title} loading="eager" />
+        <img
+          src={post.data.image}
+          alt={post.data.title}
+          loading="eager"
+          transition:name={`blog-${post.slug}`}
+        />
       </div>
 
       <!-- Post Content -->
