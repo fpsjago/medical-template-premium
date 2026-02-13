@@ -4,10 +4,25 @@ import Navigation from '../../components/Navigation.astro';
 import CTA from '../../components/CTA.astro';
 import Footer from '../../components/Footer.astro';
 import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
 
 const allPosts = await getCollection('blog');
-const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const baseUrl = import.meta.env.BASE_URL;
+
+// Optimize all blog card images to WebP
+const posts = await Promise.all(
+  sortedPosts.map(async (post) => ({
+    ...post,
+    optimizedImage: await getImage({
+      src: post.data.image,
+      format: 'webp',
+      quality: 85,
+      width: 800,
+      height: 450,
+    }),
+  }))
+);
 ---
 
 <BaseLayout title="Health Blog — HealthCarePlus" description="Stay informed with health tips, medical news, and wellness advice from our expert physicians.">
@@ -33,8 +48,10 @@ const baseUrl = import.meta.env.BASE_URL;
           <article class="postCard">
             <div class="postImage">
               <img
-                src={post.data.image}
+                src={post.optimizedImage.src}
                 alt={post.data.title}
+                width={800}
+                height={450}
                 loading="lazy"
                 transition:name={`blog-${post.slug}`}
               />

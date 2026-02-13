@@ -1,8 +1,23 @@
 ---
 import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
 
 const team = await getCollection('team');
 const sortedTeam = team.sort((a, b) => a.data.order - b.data.order);
+
+// Optimize all team images to WebP
+const optimizedTeam = await Promise.all(
+  sortedTeam.map(async (member) => ({
+    ...member,
+    optimizedImage: await getImage({
+      src: member.data.image,
+      format: 'webp',
+      quality: 85,
+      width: 800,
+      height: 1000,
+    }),
+  }))
+);
 ---
 
 <section class="team">
@@ -13,10 +28,10 @@ const sortedTeam = team.sort((a, b) => a.data.order - b.data.order);
     </div>
 
     <div class="teamGrid" data-reveal-stagger>
-      {sortedTeam.map((member) => (
+      {optimizedTeam.map((member) => (
         <article class="teamCard">
           <div class="teamImage">
-            <img src={member.data.image} alt={member.data.name} loading="lazy" />
+            <img src={member.optimizedImage.src} alt={member.data.name} width={800} height={1000} loading="lazy" />
           </div>
           <div class="teamInfo">
             <h3>{member.data.name}</h3>

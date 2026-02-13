@@ -1,11 +1,26 @@
 ---
 import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
 
 const team = await getCollection('team');
 const sortedTeam = team.sort((a, b) => a.data.order - b.data.order);
 
 // Extract unique specialties
 const specialties = [...new Set(sortedTeam.map(member => member.data.specialty).filter(Boolean))];
+
+// Optimize all doctor images to WebP
+const optimizedDoctors = await Promise.all(
+  sortedTeam.map(async (doctor) => ({
+    ...doctor,
+    optimizedImage: await getImage({
+      src: doctor.data.image,
+      format: 'webp',
+      quality: 85,
+      width: 800,
+      height: 1000,
+    }),
+  }))
+);
 ---
 
 <section class="findDoctor" id="find-doctor">
@@ -44,14 +59,14 @@ const specialties = [...new Set(sortedTeam.map(member => member.data.specialty).
 
     <!-- Doctors Grid -->
     <div class="doctorsGrid" data-reveal-stagger>
-      {sortedTeam.map((doctor) => (
+      {optimizedDoctors.map((doctor) => (
         <article
           class="doctorCard"
           data-doctor-name={doctor.data.name.toLowerCase()}
           data-doctor-specialty={doctor.data.specialty?.toLowerCase() || ''}
         >
           <div class="doctorImage">
-            <img src={doctor.data.image} alt={doctor.data.name} loading="lazy" />
+            <img src={doctor.optimizedImage.src} alt={doctor.data.name} width={800} height={1000} loading="lazy" />
             <div class="doctorOverlay">
               <button class="viewProfile">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

@@ -4,9 +4,23 @@ import Navigation from '../components/Navigation.astro';
 import CTA from '../components/CTA.astro';
 import Footer from '../components/Footer.astro';
 import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
 
 const services = await getCollection('services');
 const sortedServices = services.sort((a, b) => a.data.order - b.data.order);
+
+// Service images — optimized to WebP
+const serviceImageUrls = [
+  'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=800&h=600&fit=crop&q=80',
+];
+
+const optimizedServiceImages = await Promise.all(
+  serviceImageUrls.map((url) =>
+    getImage({ src: url, format: 'webp', quality: 85, width: 800, height: 600 })
+  )
+);
 ---
 
 <BaseLayout title="Our Services — HealthCarePlus" description="Comprehensive medical services including family medicine, preventive care, chronic disease management, and more.">
@@ -36,14 +50,10 @@ const sortedServices = services.sort((a, b) => a.data.order - b.data.order);
           </div>
           <div class="serviceImage">
             <img
-              src={`https://images.unsplash.com/photo-${
-                index % 3 === 0
-                  ? '1576091160399-112ba8d25d1d'
-                  : index % 3 === 1
-                  ? '1631217868264-e5b90bb7e133'
-                  : '1551601651-2a8555f1a136'
-              }?w=800&h=600&fit=crop&q=80`}
+              src={optimizedServiceImages[index % 3].src}
               alt={service.data.title}
+              width={800}
+              height={600}
               loading="lazy"
             />
           </div>
