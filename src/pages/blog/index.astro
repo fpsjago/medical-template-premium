@@ -105,12 +105,13 @@ const baseUrl = import.meta.env.BASE_URL;
     background: var(--surface);
     border-radius: var(--radius-xl);
     overflow: hidden;
-    transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s var(--ease-out);
+    /* transform is handled by 3D hover JavaScript */
   }
 
   .postCard:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   }
 
   .postImage {

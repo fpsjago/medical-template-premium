@@ -108,22 +108,19 @@ const {
     </script>
 
     <!-- Scroll Reveal Script — Repeating Animations -->
-    <script is:inline>
-      // Initialize scroll reveals with IntersectionObserver (repeating on scroll)
-      function initScrollReveals() {
+    <script is:inline data-astro-rerun>
+      (function() {
         // Disconnect previous observer if exists
         if (window.scrollRevealObserver) {
           window.scrollRevealObserver.disconnect();
         }
 
         window.scrollRevealObserver = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
+          function(entries) {
+            entries.forEach(function(entry) {
               if (entry.isIntersecting) {
-                // Add visible class when entering viewport
                 entry.target.classList.add('visible');
               } else {
-                // Remove visible class when leaving viewport (enables re-trigger)
                 entry.target.classList.remove('visible');
               }
             });
@@ -134,16 +131,48 @@ const {
           }
         );
 
-        document.querySelectorAll('[data-reveal], [data-reveal-stagger]').forEach((el) => {
+        document.querySelectorAll('[data-reveal], [data-reveal-stagger]').forEach(function(el) {
           window.scrollRevealObserver.observe(el);
         });
-      }
+      })();
+    </script>
 
-      // Run on initial load
-      document.addEventListener('DOMContentLoaded', initScrollReveals);
+    <!-- 3D Card Hover Effect -->
+    <script is:inline data-astro-rerun>
+      (function() {
+        // Cleanup previous instance
+        if (window._3dCardsAbort) window._3dCardsAbort.abort();
+        window._3dCardsAbort = new AbortController();
+        var signal = window._3dCardsAbort.signal;
 
-      // Re-run after View Transitions
-      document.addEventListener('astro:page-load', initScrollReveals);
+        // Target specific content cards — NOT statCard, actionCard, etc.
+        var cards = document.querySelectorAll('.postCard, .teamCard, .serviceCard, .doctorCard, [data-tilt]');
+
+        cards.forEach(function(card) {
+          card.style.transformStyle = 'preserve-3d';
+          card.style.willChange = 'transform';
+
+          card.addEventListener('mousemove', function(e) {
+            var rect = card.getBoundingClientRect();
+            var centerX = rect.left + rect.width / 2;
+            var centerY = rect.top + rect.height / 2;
+            var mouseX = e.clientX - centerX;
+            var mouseY = e.clientY - centerY;
+
+            // Rotation angles (max ±12deg — subtle premium feel)
+            var rotateX = (mouseY / rect.height) * -12;
+            var rotateY = (mouseX / rect.width) * 12;
+
+            card.style.transition = 'transform 0.1s ease-out';
+            card.style.transform = 'perspective(800px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) scale3d(1.02, 1.02, 1.02)';
+          }, { signal: signal });
+
+          card.addEventListener('mouseleave', function() {
+            card.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+            card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+          }, { signal: signal });
+        });
+      })();
     </script>
   </body>
 </html>

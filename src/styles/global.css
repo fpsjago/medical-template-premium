@@ -71,7 +71,7 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-x: clip;  /* Clip horizontal overflow without creating a second scrollbar */
 }
 
 body {
@@ -81,7 +81,6 @@ body {
   color: var(--text);
   background: var(--bg);
   min-height: 100vh;
-  overflow-x: hidden; /* Prevent horizontal scroll on body */
 }
 
 /* Typography */

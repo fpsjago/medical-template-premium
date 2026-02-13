@@ -24,7 +24,7 @@ const baseUrl = import.meta.env.BASE_URL;
   <article class="blogPost">
     <div class="container">
       <!-- Back Link -->
-      <a href={`${baseUrl}blog/`} class="backLink" data-reveal="left">
+      <a href={`${baseUrl}blog/`} class="backLink">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="19" y1="12" x2="5" y2="12"></line>
           <polyline points="12 19 5 12 12 5"></polyline>
@@ -32,8 +32,8 @@ const baseUrl = import.meta.env.BASE_URL;
         Back to Blog
       </a>
 
-      <!-- Post Header -->
-      <header class="postHeader" data-reveal>
+      <!-- Post Header — No reveal delay on reading content -->
+      <header class="postHeader">
         <div class="postCategory" transition:name={`category-${post.slug}`}>
           {post.data.category}
         </div>
@@ -45,7 +45,7 @@ const baseUrl = import.meta.env.BASE_URL;
       </header>
 
       <!-- Featured Image -->
-      <div class="featuredImage" data-reveal="scale">
+      <div class="featuredImage">
         <img
           src={post.data.image}
           alt={post.data.title}
@@ -54,8 +54,8 @@ const baseUrl = import.meta.env.BASE_URL;
         />
       </div>
 
-      <!-- Post Content -->
-      <div class="postContent" data-reveal>
+      <!-- Post Content — Visible immediately, no reveal delay -->
+      <div class="postContent">
         <Content />
       </div>
     </div>

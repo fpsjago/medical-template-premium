@@ -191,8 +191,7 @@ const optimizedHero = await getImage({
     align-items: center;
     padding: calc(var(--space-16) + 80px) 0 var(--space-16);
     background: linear-gradient(135deg, var(--bg) 0%, #f0f9ff 100%);
-    overflow-x: hidden;  /* Hide horizontal overflow (gradient orbs) */
-    overflow-y: visible;  /* Allow vertical overflow (stat cards extend) */
+    overflow: clip;  /* Clip gradient orbs without creating a scrollbar */
     opacity: 0;
     animation: heroFadeIn 0.8s ease-out 0.2s forwards;
   }
@@ -417,6 +416,14 @@ const optimizedHero = await getImage({
   /* Hero Visual */
   .heroImageWrapper {
     position: relative;
+    overflow: visible;
+  }
+
+  @media (max-width: 768px) {
+    .heroImageWrapper {
+      overflow: hidden;
+      border-radius: var(--radius-2xl);
+    }
   }
 
   .heroImageWrapper img {
@@ -491,6 +498,12 @@ const optimizedHero = await getImage({
     .stat3 { left: 0; bottom: 20px; }
   }
 
+  @media (max-width: 768px) {
+    .statCard {
+      animation: none;  /* Disable floating on mobile — prevents overflow bugs */
+    }
+  }
+
   @media (max-width: 640px) {
     .hero {
       min-height: auto;
@@ -509,7 +522,6 @@ const optimizedHero = await getImage({
 
     .statCard {
       padding: var(--space-2) var(--space-3);
-      transform: scale(0.85);
     }
 
     .statNumber {
@@ -520,20 +532,21 @@ const optimizedHero = await getImage({
       font-size: 0.65rem;
     }
 
-    /* Adjust stat card positions for mobile */
+    /* Adjust stat card positions for mobile — keep inside container */
     .stat1 {
       top: 10px;
-      left: -10px;
+      left: 5px;
     }
 
     .stat2 {
-      top: 50%;
-      right: -10px;
+      top: auto;
+      bottom: 60px;
+      right: 5px;
     }
 
     .stat3 {
       bottom: 10px;
-      left: -10px;
+      left: 5px;
     }
   }
 </style>
@@ -557,49 +570,53 @@ const optimizedHero = await getImage({
       });
     }
 
-    // Premium parallax effects with GSAP
-    const heroMain = document.querySelector('.heroMain');
-    const heroVisual = document.querySelector('.heroVisual');
-    const statCards = document.querySelectorAll('.statCard');
+    // Premium parallax effects with GSAP — desktop only
+    // Parallax doesn't make sense on mobile/touch and causes visual bugs
+    const isDesktop = window.innerWidth > 768;
 
-    if (heroMain) {
-      gsap.to(heroMain, {
-        y: 120,  // Moderate displacement (not too much)
-        opacity: 0.85,
-        scrollTrigger: {
-          trigger: '.hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1,
-        }
+    if (isDesktop) {
+      const heroMain = document.querySelector('.heroMain');
+      const heroVisual = document.querySelector('.heroVisual');
+      const statCards = document.querySelectorAll('.statCard');
+
+      if (heroMain) {
+        gsap.to(heroMain, {
+          y: 120,
+          opacity: 0.85,
+          scrollTrigger: {
+            trigger: '.hero',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1,
+          }
+        });
+      }
+
+      if (heroVisual) {
+        gsap.to(heroVisual, {
+          y: 180,
+          scale: 0.95,
+          scrollTrigger: {
+            trigger: '.hero',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1,
+          }
+        });
+      }
+
+      statCards.forEach((card, index) => {
+        gsap.to(card, {
+          y: -100 * (index + 1),
+          scrollTrigger: {
+            trigger: '.hero',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1.5,
+          }
+        });
       });
     }
-
-    if (heroVisual) {
-      gsap.to(heroVisual, {
-        y: 180,  // Moderate displacement (prevents image cut-off)
-        scale: 0.95,  // Subtle scale
-        scrollTrigger: {
-          trigger: '.hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1,
-        }
-      });
-    }
-
-    // Stat cards floating parallax (moderate)
-    statCards.forEach((card, index) => {
-      gsap.to(card, {
-        y: -100 * (index + 1),  // Moderate displacement per card
-        scrollTrigger: {
-          trigger: '.hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.5,
-        }
-      });
-    });
 
     // Animated counters
     const counters = document.querySelectorAll('[data-count]');

@@ -145,6 +145,11 @@ const baseUrl = import.meta.env.BASE_URL;
     width: 28px;
     height: 24px;
     padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 101; /* Ensure it's above nav */
   }
 
   .menuToggle span {
@@ -173,6 +178,7 @@ const baseUrl = import.meta.env.BASE_URL;
       top: 72px;
       left: 0;
       right: 0;
+      z-index: 99; /* Below nav but above content */
       flex-direction: column;
       background: white;
       padding: var(--space-6);
@@ -199,43 +205,44 @@ const baseUrl = import.meta.env.BASE_URL;
   }
 </style>
 
-<script>
-  // Scroll-aware navigation
-  function initNav() {
-    const nav = document.getElementById('main-nav');
-    const menuToggle = document.getElementById('menu-toggle');
-    const navMenu = document.getElementById('nav-menu');
+<script is:inline data-astro-rerun>
+  (function() {
+    // Use AbortController to prevent duplicate listeners across navigations
+    if (window._navAbort) window._navAbort.abort();
+    window._navAbort = new AbortController();
+    var signal = window._navAbort.signal;
+
+    var nav = document.getElementById('main-nav');
+    var menuToggle = document.getElementById('menu-toggle');
+    var navMenu = document.getElementById('nav-menu');
 
     if (!nav || !menuToggle || !navMenu) return;
 
     // Scroll behavior
-    let scrolled = false;
-    window.addEventListener('scroll', () => {
-      const shouldBeScrolled = window.scrollY > 50;
+    var scrolled = false;
+    window.addEventListener('scroll', function() {
+      var shouldBeScrolled = window.scrollY > 50;
       if (shouldBeScrolled !== scrolled) {
         scrolled = shouldBeScrolled;
         nav.classList.toggle('scrolled', scrolled);
       }
-    });
+    }, { signal: signal });
 
     // Mobile menu toggle
-    menuToggle.addEventListener('click', () => {
-      const isActive = menuToggle.classList.toggle('active');
+    menuToggle.addEventListener('click', function() {
+      var isActive = menuToggle.classList.toggle('active');
       navMenu.classList.toggle('active');
-      menuToggle.setAttribute('aria-expanded', isActive.toString());
-    });
+      menuToggle.setAttribute('aria-expanded', String(isActive));
+    }, { signal: signal });
 
     // Close menu on link click
-    navMenu.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
+    var links = navMenu.querySelectorAll('a');
+    for (var i = 0; i < links.length; i++) {
+      links[i].addEventListener('click', function() {
         menuToggle.classList.remove('active');
         navMenu.classList.remove('active');
         menuToggle.setAttribute('aria-expanded', 'false');
-      });
-    });
-  }
-
-  // Run on load and after View Transitions
-  document.addEventListener('DOMContentLoaded', initNav);
-  document.addEventListener('astro:page-load', initNav);
+      }, { signal: signal });
+    }
+  })();
 </script>
