@@ -4,7 +4,7 @@ description: "Stay ahead of health issues with regular screenings, vaccinations,
 pubDate: 2026-01-28
 author: "Dr. Sarah Chen"
 image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&h=600&fit=crop&q=80"
-category: "Preventive Care"
+category: "Health Tips"
 featured: false
 ---
 

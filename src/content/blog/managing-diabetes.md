@@ -4,7 +4,7 @@ description: "Practical strategies for managing diabetes effectively through die
 pubDate: 2026-01-22
 author: "Dr. Emily Watson"
 image: "https://images.unsplash.com/photo-1606166187734-a4cb74079037?w=1200&h=600&fit=crop&q=80"
-category: "Chronic Care"
+category: "Health Tips"
 featured: false
 ---
 

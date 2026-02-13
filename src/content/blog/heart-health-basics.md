@@ -4,7 +4,7 @@ description: "Learn the fundamentals of cardiovascular wellness and how to maint
 pubDate: 2026-01-10
 author: "Dr. Michael Rodriguez"
 image: "https://images.unsplash.com/photo-1628348068343-c6a848d2b6dd?w=1200&h=600&fit=crop&q=80"
-category: "Cardiology"
+category: "Health Tips"
 featured: false
 ---
 

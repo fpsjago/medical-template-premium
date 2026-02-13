@@ -4,7 +4,7 @@ description: "Understanding mental health, recognizing warning signs, and learni
 pubDate: 2026-02-02
 author: "Dr. James Patterson"
 image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1200&h=600&fit=crop&q=80"
-category: "Mental Health"
+category: "Wellness"
 featured: true
 ---
 
