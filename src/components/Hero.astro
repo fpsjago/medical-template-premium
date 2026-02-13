@@ -191,7 +191,8 @@ const optimizedHero = await getImage({
     align-items: center;
     padding: calc(var(--space-16) + 80px) 0 var(--space-16);
     background: linear-gradient(135deg, var(--bg) 0%, #f0f9ff 100%);
-    overflow: hidden;
+    overflow-x: hidden;  /* Hide horizontal overflow (gradient orbs) */
+    overflow-y: visible;  /* Allow vertical overflow (stat cards extend) */
     opacity: 0;
     animation: heroFadeIn 0.8s ease-out 0.2s forwards;
   }
@@ -563,8 +564,8 @@ const optimizedHero = await getImage({
 
     if (heroMain) {
       gsap.to(heroMain, {
-        y: 250,  // Increased from 100 (more dramatic displacement)
-        opacity: 0.7,  // Fade more on scroll
+        y: 120,  // Moderate displacement (not too much)
+        opacity: 0.85,
         scrollTrigger: {
           trigger: '.hero',
           start: 'top top',
@@ -576,8 +577,8 @@ const optimizedHero = await getImage({
 
     if (heroVisual) {
       gsap.to(heroVisual, {
-        y: 400,  // Increased from 150 (much more displacement)
-        scale: 0.85,  // Shrink more (was 0.95)
+        y: 180,  // Moderate displacement (prevents image cut-off)
+        scale: 0.95,  // Subtle scale
         scrollTrigger: {
           trigger: '.hero',
           start: 'top top',
@@ -587,10 +588,10 @@ const optimizedHero = await getImage({
       });
     }
 
-    // Stat cards floating parallax (more dramatic)
+    // Stat cards floating parallax (moderate)
     statCards.forEach((card, index) => {
       gsap.to(card, {
-        y: -150 * (index + 1),  // Increased from -80 (more displacement per card)
+        y: -100 * (index + 1),  // Moderate displacement per card
         scrollTrigger: {
           trigger: '.hero',
           start: 'top top',

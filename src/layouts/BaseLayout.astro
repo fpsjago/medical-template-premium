@@ -68,13 +68,13 @@ const {
           rafId = null;
         }
 
-        // Initialize Lenis smooth scroll (ultra-fast for instant transitions)
+        // Initialize Lenis smooth scroll (heavier feel with more momentum)
         lenis = new Lenis({
-          duration: 0.6,
+          duration: 1.0,  // Increased from 0.6 for more momentum
           easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           orientation: 'vertical',
           smoothWheel: true,
-          wheelMultiplier: 1,
+          wheelMultiplier: 1.8,  // Increased from 1 - scroll more per wheel tick
           smoothTouch: false,
           touchMultiplier: 2,
         });
