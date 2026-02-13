@@ -1,0 +1,147 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import CTA from '../components/CTA.astro';
+import Footer from '../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const services = await getCollection('services');
+const sortedServices = services.sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Our Services — HealthCarePlus" description="Comprehensive medical services including family medicine, preventive care, chronic disease management, and more.">
+  <Navigation />
+
+  <!-- Services Hero -->
+  <section class="servicesHero">
+    <div class="container">
+      <div class="heroText" data-reveal>
+        <h1>Comprehensive Medical Services</h1>
+        <p class="lead">
+          From routine checkups to specialized care, we offer a full range of medical services to keep you and your family healthy.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services List -->
+  <section class="servicesList">
+    <div class="container">
+      {sortedServices.map((service, index) => (
+        <article class="serviceDetail" id={service.slug} data-reveal={index % 2 === 0 ? 'left' : 'right'}>
+          <div class="serviceContent">
+            <div class="serviceIcon" set:html={service.data.icon}></div>
+            <h2>{service.data.title}</h2>
+            <p class="description">{service.data.description}</p>
+          </div>
+          <div class="serviceImage">
+            <img
+              src={`https://images.unsplash.com/photo-${
+                index % 3 === 0
+                  ? '1576091160399-112ba8d25d1d'
+                  : index % 3 === 1
+                  ? '1631217868264-e5b90bb7e133'
+                  : '1551601651-2a8555f1a136'
+              }?w=800&h=600&fit=crop&q=80`}
+              alt={service.data.title}
+              loading="lazy"
+            />
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <CTA />
+  <Footer />
+</BaseLayout>
+
+<style>
+  .servicesHero {
+    padding: calc(var(--space-16) + 80px) 0 var(--space-12);
+    text-align: center;
+  }
+
+  .heroText {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .heroText h1 {
+    margin-bottom: var(--space-5);
+  }
+
+  .lead {
+    font-size: var(--text-xl);
+    margin: 0 auto;
+  }
+
+  .servicesList {
+    padding: var(--space-12) 0;
+  }
+
+  .serviceDetail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-10);
+    align-items: center;
+    padding: var(--space-12) 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .serviceDetail:last-child {
+    border-bottom: none;
+  }
+
+  .serviceDetail:nth-child(even) {
+    direction: rtl;
+  }
+
+  .serviceDetail:nth-child(even) > * {
+    direction: ltr;
+  }
+
+  .serviceIcon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(8, 145, 178, 0.1);
+    border-radius: var(--radius-lg);
+    color: var(--primary);
+    margin-bottom: var(--space-4);
+  }
+
+  .serviceIcon :global(svg) {
+    width: 32px;
+    height: 32px;
+    stroke-width: 2;
+  }
+
+  .serviceDetail h2 {
+    margin-bottom: var(--space-4);
+  }
+
+  .description {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-5);
+  }
+
+  .serviceImage img {
+    width: 100%;
+    border-radius: var(--radius-xl);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 1024px) {
+    .serviceDetail {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    .serviceDetail:nth-child(even) {
+      direction: ltr;
+    }
+  }
+</style>

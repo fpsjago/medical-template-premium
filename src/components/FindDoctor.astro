@@ -1,0 +1,520 @@
+---
+import { getCollection } from 'astro:content';
+
+const team = await getCollection('team');
+const sortedTeam = team.sort((a, b) => a.data.order - b.data.order);
+
+// Extract unique specialties
+const specialties = [...new Set(sortedTeam.map(member => member.data.specialty).filter(Boolean))];
+---
+
+<section class="findDoctor" id="find-doctor">
+  <div class="container">
+    <div class="sectionHeader" data-reveal>
+      <h2>Find a Doctor</h2>
+      <p>Search our team of board-certified specialists</p>
+    </div>
+
+    <!-- Search and Filter Controls -->
+    <div class="searchControls" data-reveal>
+      <div class="searchBox">
+        <svg class="searchIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input
+          type="text"
+          id="doctor-search"
+          placeholder="Search by name or specialty..."
+          class="searchInput"
+        />
+      </div>
+
+      <div class="filterTabs">
+        <button class="filterTab active" data-specialty="all">
+          All Doctors
+        </button>
+        {specialties.map((specialty) => (
+          <button class="filterTab" data-specialty={specialty}>
+            {specialty}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Doctors Grid -->
+    <div class="doctorsGrid" data-reveal-stagger>
+      {sortedTeam.map((doctor) => (
+        <article
+          class="doctorCard"
+          data-doctor-name={doctor.data.name.toLowerCase()}
+          data-doctor-specialty={doctor.data.specialty?.toLowerCase() || ''}
+        >
+          <div class="doctorImage">
+            <img src={doctor.data.image} alt={doctor.data.name} loading="lazy" />
+            <div class="doctorOverlay">
+              <button class="viewProfile">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                View Profile
+              </button>
+            </div>
+          </div>
+          <div class="doctorInfo">
+            <h3>{doctor.data.name}</h3>
+            <p class="doctorRole">{doctor.data.role}</p>
+            {doctor.data.specialty && (
+              <div class="specialtyBadge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                {doctor.data.specialty}
+              </div>
+            )}
+            <p class="doctorBio">{doctor.data.bio}</p>
+            {doctor.data.credentials && doctor.data.credentials.length > 0 && (
+              <div class="credentials">
+                <p class="credentialsTitle">Credentials:</p>
+                <ul>
+                  {doctor.data.credentials.slice(0, 2).map((cred) => (
+                    <li>{cred}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- No Results Message -->
+    <div class="noResults" style="display: none;">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <p>No doctors found matching your search.</p>
+      <button class="resetSearch">Clear Search</button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .findDoctor {
+    padding: var(--space-16) 0;
+    background: linear-gradient(180deg, var(--bg) 0%, #f0f9ff 100%);
+  }
+
+  .sectionHeader {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto var(--space-10);
+  }
+
+  .sectionHeader h2 {
+    margin-bottom: var(--space-4);
+  }
+
+  .sectionHeader p {
+    font-size: var(--text-xl);
+    margin: 0 auto;
+  }
+
+  /* Search Controls */
+  .searchControls {
+    max-width: 960px;
+    margin: 0 auto var(--space-10);
+  }
+
+  .searchBox {
+    position: relative;
+    margin-bottom: var(--space-6);
+  }
+
+  .searchIcon {
+    position: absolute;
+    left: var(--space-4);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+  }
+
+  .searchInput {
+    width: 100%;
+    padding: var(--space-4) var(--space-5) var(--space-4) calc(var(--space-4) + 32px);
+    font-family: var(--font-body);
+    font-size: var(--text-lg);
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-lg);
+    transition: all 0.3s var(--ease-out);
+  }
+
+  .searchInput:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 4px 16px rgba(8, 145, 178, 0.15);
+  }
+
+  /* Filter Tabs */
+  .filterTabs {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .filterTab {
+    padding: var(--space-3) var(--space-5);
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    background: white;
+    color: var(--text);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all 0.3s var(--ease-out);
+  }
+
+  .filterTab:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-2px);
+  }
+
+  .filterTab.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+
+  /* Doctors Grid */
+  .doctorsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: var(--space-8);
+    margin-bottom: var(--space-8);
+  }
+
+  .doctorCard {
+    background: white;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: all 0.4s var(--ease-out);
+  }
+
+  .doctorCard.hidden {
+    display: none;
+  }
+
+  .doctorCard:hover {
+    transform: translateY(-8px);
+    box-shadow:
+      0 4px 6px rgba(0, 0, 0, 0.05),
+      0 10px 20px rgba(0, 0, 0, 0.08),
+      0 20px 40px rgba(0, 0, 0, 0.06);
+    border-color: var(--primary);
+  }
+
+  /* Doctor Image */
+  .doctorImage {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--border);
+  }
+
+  .doctorImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s var(--ease-out);
+  }
+
+  .doctorCard:hover .doctorImage img {
+    transform: scale(1.08);
+  }
+
+  /* Hover Overlay */
+  .doctorOverlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(8, 145, 178, 0.95) 100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: var(--space-6);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-out);
+  }
+
+  .doctorCard:hover .doctorOverlay {
+    opacity: 1;
+  }
+
+  .viewProfile {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    background: white;
+    color: var(--primary);
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    border: none;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all 0.3s var(--ease-out);
+    transform: translateY(20px);
+  }
+
+  .doctorCard:hover .viewProfile {
+    transform: translateY(0);
+  }
+
+  .viewProfile:hover {
+    background: var(--accent);
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  /* Doctor Info */
+  .doctorInfo {
+    padding: var(--space-6);
+  }
+
+  .doctorInfo h3 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-2);
+  }
+
+  .doctorRole {
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: var(--space-3);
+  }
+
+  .specialtyBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    background: rgba(8, 145, 178, 0.1);
+    border: 1px solid rgba(8, 145, 178, 0.2);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: var(--space-4);
+  }
+
+  .specialtyBadge svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .doctorBio {
+    font-size: var(--text-base);
+    line-height: 1.6;
+    margin-bottom: var(--space-4);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .credentials {
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border);
+  }
+
+  .credentialsTitle {
+    font-family: var(--font-heading);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: var(--space-2);
+  }
+
+  .credentials ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .credentials li {
+    font-size: var(--text-sm);
+    color: var(--text);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .credentials li::before {
+    content: "•";
+    color: var(--primary);
+    font-weight: bold;
+  }
+
+  /* No Results */
+  .noResults {
+    text-align: center;
+    padding: var(--space-16) var(--space-6);
+  }
+
+  .noResults svg {
+    color: var(--text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .noResults p {
+    font-size: var(--text-xl);
+    color: var(--text-muted);
+    margin-bottom: var(--space-6);
+  }
+
+  .resetSearch {
+    padding: var(--space-3) var(--space-6);
+    background: var(--primary);
+    color: white;
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all 0.3s var(--ease-out);
+  }
+
+  .resetSearch:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(249, 115, 22, 0.3);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .doctorsGrid {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    .filterTabs {
+      justify-content: flex-start;
+    }
+
+    .filterTab {
+      font-size: var(--text-xs);
+      padding: var(--space-2) var(--space-4);
+    }
+
+    .searchInput {
+      font-size: var(--text-base);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .findDoctor {
+      padding: var(--space-12) 0;
+    }
+
+    .doctorInfo h3 {
+      font-size: var(--text-xl);
+    }
+  }
+</style>
+
+<script>
+  function initFindDoctor() {
+    const searchInput = document.getElementById('doctor-search') as HTMLInputElement;
+    const filterTabs = document.querySelectorAll('.filterTab');
+    const doctorCards = document.querySelectorAll('.doctorCard');
+    const noResults = document.querySelector('.noResults') as HTMLElement;
+    const resetBtn = document.querySelector('.resetSearch') as HTMLButtonElement;
+
+    let activeSpecialty = 'all';
+
+    // Filter function
+    function filterDoctors() {
+      const searchTerm = searchInput?.value.toLowerCase() || '';
+      let visibleCount = 0;
+
+      doctorCards.forEach((card) => {
+        const htmlCard = card as HTMLElement;
+        const name = htmlCard.dataset.doctorName || '';
+        const specialty = htmlCard.dataset.doctorSpecialty || '';
+
+        // Check specialty filter
+        const matchesSpecialty = activeSpecialty === 'all' || specialty === activeSpecialty.toLowerCase();
+
+        // Check search term (matches name or specialty)
+        const matchesSearch = searchTerm === '' ||
+                             name.includes(searchTerm) ||
+                             specialty.includes(searchTerm);
+
+        if (matchesSpecialty && matchesSearch) {
+          htmlCard.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          htmlCard.classList.add('hidden');
+        }
+      });
+
+      // Show/hide no results message
+      if (noResults) {
+        noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+      }
+    }
+
+    // Search input listener
+    if (searchInput) {
+      searchInput.addEventListener('input', filterDoctors);
+    }
+
+    // Filter tab listeners
+    filterTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        // Update active state
+        filterTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        // Get specialty
+        const htmlTab = tab as HTMLElement;
+        activeSpecialty = htmlTab.dataset.specialty || 'all';
+
+        // Filter doctors
+        filterDoctors();
+      });
+    });
+
+    // Reset button
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        if (searchInput) searchInput.value = '';
+        activeSpecialty = 'all';
+
+        filterTabs.forEach(t => t.classList.remove('active'));
+        const allTab = document.querySelector('[data-specialty="all"]');
+        if (allTab) allTab.classList.add('active');
+
+        filterDoctors();
+      });
+    }
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', initFindDoctor);
+  document.addEventListener('astro:page-load', initFindDoctor);
+</script>

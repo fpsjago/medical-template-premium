@@ -1,0 +1,116 @@
+---
+import { getCollection } from 'astro:content';
+
+const testimonials = await getCollection('testimonials');
+---
+
+<section class="testimonials">
+  <div class="container">
+    <div class="sectionHeader" data-reveal>
+      <h2>What Our Patients Say</h2>
+      <p>Real stories from people who trust us with their health</p>
+    </div>
+
+    <div class="testimonialsGrid" data-reveal-stagger>
+      {testimonials.map((testimonial) => (
+        <article class="testimonialCard">
+          <div class="rating">
+            {[...Array(testimonial.data.rating)].map(() => (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
+            ))}
+          </div>
+          <blockquote>{testimonial.data.content}</blockquote>
+          <div class="author">
+            <div>
+              <div class="authorName">{testimonial.data.author}</div>
+              {testimonial.data.role && <div class="authorRole">{testimonial.data.role}</div>}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonials {
+    padding: var(--space-16) 0;
+    background: var(--surface);
+  }
+
+  .sectionHeader {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto var(--space-12);
+  }
+
+  .sectionHeader h2 {
+    margin-bottom: var(--space-4);
+  }
+
+  .sectionHeader p {
+    font-size: var(--text-xl);
+    margin: 0 auto;
+  }
+
+  .testimonialsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .testimonialCard {
+    padding: var(--space-6);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    transition: all 0.3s var(--ease-out);
+  }
+
+  .testimonialCard:hover {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
+  }
+
+  .rating {
+    display: flex;
+    gap: var(--space-1);
+    margin-bottom: var(--space-4);
+    color: var(--accent);
+  }
+
+  blockquote {
+    font-size: var(--text-lg);
+    line-height: 1.6;
+    color: var(--text);
+    margin-bottom: var(--space-5);
+    font-style: italic;
+  }
+
+  .author {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .authorName {
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .authorRole {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 640px) {
+    .testimonialsGrid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

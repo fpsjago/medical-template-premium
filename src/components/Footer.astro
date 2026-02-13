@@ -1,0 +1,192 @@
+---
+const baseUrl = import.meta.env.BASE_URL;
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="footer" data-reveal>
+  <div class="container">
+    <div class="footerGrid">
+      <!-- Brand Column -->
+      <div class="footerBrand">
+        <div class="logo">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="8" fill="currentColor"/>
+            <path d="M16 8V24M10 16H22" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <span>HealthCare<strong>Plus</strong></span>
+        </div>
+        <p class="tagline">Comprehensive medical care delivered with compassion and expertise.</p>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="footerSection">
+        <h4>NAVIGATION</h4>
+        <ul>
+          <li><a href={`${baseUrl}`}>Home</a></li>
+          <li><a href={`${baseUrl}about/`}>About</a></li>
+          <li><a href={`${baseUrl}services/`}>Services</a></li>
+          <li><a href={`${baseUrl}blog/`}>Blog</a></li>
+          <li><a href={`${baseUrl}contact/`}>Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Services Links -->
+      <div class="footerSection">
+        <h4>SERVICES</h4>
+        <ul>
+          <li><a href={`${baseUrl}services/#general-checkup`}>General Checkups</a></li>
+          <li><a href={`${baseUrl}services/#family-medicine`}>Family Medicine</a></li>
+          <li><a href={`${baseUrl}services/#preventive-care`}>Preventive Care</a></li>
+          <li><a href={`${baseUrl}services/#womens-health`}>Women's Health</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact & Legal -->
+      <div class="footerSection">
+        <h4>CONTACT</h4>
+        <ul>
+          <li><a href="tel:+15551234567">(555) 123-4567</a></li>
+          <li><a href="mailto:contact@healthcareplus.com">Email Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footerBottom">
+      <p>&copy; {currentYear} HealthCarePlus. All rights reserved.</p>
+      <p class="credit">
+        Template by <a href="https://jagofps.dev" target="_blank" rel="noopener">jagoFps</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--text);
+    color: rgba(255, 255, 255, 0.7);
+    padding: var(--space-12) 0 var(--space-6);
+  }
+
+  .footerGrid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--space-10);
+    margin-bottom: var(--space-10);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Brand Column */
+  .footerBrand .logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: white;
+    margin-bottom: var(--space-4);
+  }
+
+  .footerBrand .logo svg {
+    color: var(--primary);
+    flex-shrink: 0;
+  }
+
+  .footerBrand .logo strong {
+    color: var(--primary);
+  }
+
+  .tagline {
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    max-width: 280px;
+  }
+
+  /* Section Columns */
+  .footerSection h4 {
+    font-family: var(--font-heading);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: var(--space-5);
+  }
+
+  .footerSection ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .footerSection a {
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.7);
+    transition: color 0.2s var(--ease-out);
+    display: inline-block;
+  }
+
+  .footerSection a:hover {
+    color: var(--primary);
+  }
+
+  /* Bottom Bar */
+  .footerBottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .footerBottom p {
+    font-size: var(--text-xs);
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .credit a {
+    color: var(--primary);
+    font-weight: 600;
+    transition: color 0.2s var(--ease-out);
+  }
+
+  .credit a:hover {
+    color: var(--accent);
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .footerGrid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-8);
+    }
+
+    .footerBrand {
+      grid-column: span 2;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .footerGrid {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+
+    .footerBrand {
+      grid-column: span 1;
+    }
+
+    .tagline {
+      max-width: 100%;
+    }
+
+    .footerBottom {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+</style>

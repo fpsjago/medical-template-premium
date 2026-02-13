@@ -1,0 +1,193 @@
+---
+import { getCollection } from 'astro:content';
+
+const services = await getCollection('services');
+const sortedServices = services.sort((a, b) => a.data.order - b.data.order);
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<section class="services">
+  <div class="container">
+    <div class="sectionHeader" data-reveal>
+      <h2>Our Medical Services</h2>
+      <p>Comprehensive healthcare solutions tailored to your needs</p>
+    </div>
+
+    <div class="servicesGrid" data-reveal-stagger>
+      {sortedServices.map((service, index) => (
+        <article class={`serviceCard ${service.data.featured ? 'featured' : ''} ${index % 3 === 0 ? 'wide' : ''}`}>
+          <div class="serviceIcon" set:html={service.data.icon}></div>
+          <h3>{service.data.title}</h3>
+          <p>{service.data.description}</p>
+          <a href={`${baseUrl}services/#${service.slug}`} class="serviceLink">
+            Learn More
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services {
+    padding: var(--space-16) 0;
+  }
+
+  .sectionHeader {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto var(--space-12);
+  }
+
+  .sectionHeader h2 {
+    margin-bottom: var(--space-4);
+  }
+
+  .sectionHeader p {
+    font-size: var(--text-xl);
+    margin: 0 auto;
+  }
+
+  .servicesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .serviceCard {
+    padding: var(--space-6);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s var(--ease-out);
+  }
+
+  /* Premium gradient overlay on hover */
+  .serviceCard::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(8, 145, 178, 0.03) 0%, rgba(249, 115, 22, 0.03) 100%);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-out);
+  }
+
+  .serviceCard:hover::before {
+    opacity: 1;
+  }
+
+  .serviceCard:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow:
+      0 4px 6px rgba(0, 0, 0, 0.05),
+      0 10px 20px rgba(0, 0, 0, 0.08),
+      0 20px 40px rgba(8, 145, 178, 0.12);
+    border-color: var(--primary);
+  }
+
+  .serviceCard.featured {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    color: white;
+    border: none;
+  }
+
+  .serviceCard.featured h3,
+  .serviceCard.featured p {
+    color: white;
+  }
+
+  .serviceCard.featured .serviceIcon {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .serviceCard.wide {
+    grid-column: span 2;
+  }
+
+  .serviceIcon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(8, 145, 178, 0.1);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-4);
+    color: var(--primary);
+    position: relative;
+    z-index: 1;
+    transition: all 0.4s var(--ease-out);
+  }
+
+  .serviceCard:hover .serviceIcon {
+    transform: scale(1.1) rotate(5deg);
+    background: rgba(8, 145, 178, 0.15);
+  }
+
+  .serviceIcon :global(svg) {
+    width: 32px;
+    height: 32px;
+    stroke-width: 2;
+  }
+
+  .serviceCard h3 {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-3);
+  }
+
+  .serviceCard p {
+    margin-bottom: var(--space-5);
+  }
+
+  .serviceLink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--primary);
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s var(--ease-out);
+  }
+
+  .serviceCard.featured .serviceLink {
+    color: white;
+  }
+
+  .serviceLink:hover {
+    gap: var(--space-3);
+    transform: translateX(4px);
+  }
+
+  .serviceLink svg {
+    transition: transform 0.3s var(--ease-out);
+  }
+
+  .serviceLink:hover svg {
+    transform: translateX(4px);
+  }
+
+  .serviceLink svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media (max-width: 1024px) {
+    .serviceCard.wide {
+      grid-column: span 1;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .servicesGrid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

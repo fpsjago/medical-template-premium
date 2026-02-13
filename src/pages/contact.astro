@@ -1,0 +1,284 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout title="Contact Us — HealthCarePlus" description="Get in touch with HealthCarePlus. Schedule an appointment, ask questions, or find our location and hours.">
+  <Navigation />
+
+  <section class="contact">
+    <div class="container">
+      <div class="contactContent">
+        <!-- Contact Info -->
+        <div class="contactInfo" data-reveal="left">
+          <h1>Get in Touch</h1>
+          <p class="lead">
+            We're here to answer your questions and schedule your appointment. Reach out today to start your journey to better health.
+          </p>
+
+          <div class="contactDetails">
+            <div class="contactItem">
+              <div class="contactIcon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+              </div>
+              <div>
+                <h3>Location</h3>
+                <p>123 Medical Center Drive<br />Suite 100<br />City, ST 12345</p>
+              </div>
+            </div>
+
+            <div class="contactItem">
+              <div class="contactIcon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+              </div>
+              <div>
+                <h3>Phone</h3>
+                <p>(555) 123-4567</p>
+              </div>
+            </div>
+
+            <div class="contactItem">
+              <div class="contactIcon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+              </div>
+              <div>
+                <h3>Email</h3>
+                <p>contact@healthcareplus.com</p>
+              </div>
+            </div>
+
+            <div class="contactItem">
+              <div class="contactIcon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+              <div>
+                <h3>Hours</h3>
+                <p>
+                  Monday - Friday: 8am - 6pm<br />
+                  Saturday: 9am - 2pm<br />
+                  Sunday: Closed
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contactForm" data-reveal="right">
+          <form id="contact-form">
+            <div class="formGroup">
+              <label for="name">Full Name *</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+
+            <div class="formGroup">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+
+            <div class="formGroup">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" />
+            </div>
+
+            <div class="formGroup">
+              <label for="reason">Reason for Contact *</label>
+              <select id="reason" name="reason" required>
+                <option value="">Select a reason</option>
+                <option value="appointment">Schedule Appointment</option>
+                <option value="question">General Question</option>
+                <option value="prescription">Prescription Refill</option>
+                <option value="billing">Billing Inquiry</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="formGroup">
+              <label for="message">Message *</label>
+              <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+
+            <button type="submit" class="btnPrimary large">
+              Send Message
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .contact {
+    padding: calc(var(--space-16) + 80px) 0 var(--space-16);
+  }
+
+  .contactContent {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12);
+  }
+
+  .contactInfo h1 {
+    margin-bottom: var(--space-5);
+  }
+
+  .lead {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-8);
+  }
+
+  .contactDetails {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .contactItem {
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  .contactIcon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(8, 145, 178, 0.1);
+    border-radius: var(--radius-lg);
+    color: var(--primary);
+  }
+
+  .contactItem h3 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-2);
+  }
+
+  .contactItem p {
+    font-size: var(--text-base);
+    line-height: 1.6;
+  }
+
+  .contactForm {
+    background: var(--surface);
+    padding: var(--space-8);
+    border-radius: var(--radius-2xl);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  }
+
+  .formGroup {
+    margin-bottom: var(--space-5);
+  }
+
+  label {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: var(--space-2);
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .btnPrimary {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-6);
+    background: var(--primary);
+    color: white;
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all 0.3s var(--ease-out);
+  }
+
+  .btnPrimary:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(8, 145, 178, 0.25);
+  }
+
+  @media (max-width: 1024px) {
+    .contactContent {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+  }
+</style>
+
+<script>
+  function initContactForm() {
+    const form = document.getElementById('contact-form') as HTMLFormElement;
+    if (!form) return;
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Simulate form submission
+      const button = form.querySelector('button[type="submit"]');
+      if (button) {
+        button.textContent = 'Sending...';
+        setTimeout(() => {
+          alert('Thank you for your message! We\'ll get back to you soon.');
+          form.reset();
+          button.innerHTML = 'Send Message <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>';
+        }, 1000);
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initContactForm);
+  document.addEventListener('astro:page-load', initContactForm);
+</script>

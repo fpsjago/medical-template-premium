@@ -1,0 +1,184 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import Team from '../components/Team.astro';
+import Stats from '../components/Stats.astro';
+import CTA from '../components/CTA.astro';
+import Footer from '../components/Footer.astro';
+
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<BaseLayout title="About Us — HealthCarePlus" description="Learn about our mission, values, and the dedicated medical professionals who make HealthCarePlus a trusted healthcare provider.">
+  <Navigation />
+
+  <!-- About Hero -->
+  <section class="aboutHero">
+    <div class="container">
+      <div class="aboutContent">
+        <div class="aboutText" data-reveal="left">
+          <h1>Dedicated to Your Well-Being</h1>
+          <p class="lead">
+            Since 2010, HealthCarePlus has been providing comprehensive, compassionate medical care to our community. Our mission is simple: deliver exceptional healthcare that puts patients first.
+          </p>
+        </div>
+        <div class="aboutImage" data-reveal="right">
+          <img
+            src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=1200&h=800&fit=crop&q=80"
+            alt="Modern medical facility"
+            loading="eager"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Stats />
+
+  <!-- Our Mission -->
+  <section class="mission">
+    <div class="container">
+      <div class="missionContent" data-reveal>
+        <div class="missionText">
+          <h2>Our Mission</h2>
+          <p>
+            We believe that quality healthcare should be accessible, personalized, and delivered with compassion. Our team of board-certified physicians and medical professionals work collaboratively to provide comprehensive care across all life stages.
+          </p>
+          <p>
+            From preventive care to chronic disease management, we're committed to helping you achieve and maintain optimal health through evidence-based medicine and a patient-centered approach.
+          </p>
+        </div>
+        <div class="missionValues">
+          <div class="valueCard">
+            <div class="valueIcon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+            </div>
+            <h3>Excellence</h3>
+            <p>Committed to the highest standards of medical care and continuous improvement</p>
+          </div>
+          <div class="valueCard">
+            <div class="valueIcon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </div>
+            <h3>Compassion</h3>
+            <p>Treating every patient with empathy, respect, and understanding</p>
+          </div>
+          <div class="valueCard">
+            <div class="valueIcon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <h3>Accessibility</h3>
+            <p>Making quality healthcare available when you need it most</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Team />
+  <CTA />
+  <Footer />
+</BaseLayout>
+
+<style>
+  .aboutHero {
+    padding: calc(var(--space-16) + 80px) 0 var(--space-16);
+  }
+
+  .aboutContent {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-10);
+    align-items: center;
+  }
+
+  .aboutText h1 {
+    margin-bottom: var(--space-5);
+  }
+
+  .lead {
+    font-size: var(--text-xl);
+    line-height: 1.6;
+  }
+
+  .aboutImage img {
+    width: 100%;
+    border-radius: var(--radius-2xl);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.1);
+  }
+
+  .mission {
+    padding: var(--space-16) 0;
+    background: var(--surface);
+  }
+
+  .missionContent {
+    display: grid;
+    gap: var(--space-12);
+  }
+
+  .missionText {
+    max-width: 800px;
+  }
+
+  .missionText h2 {
+    margin-bottom: var(--space-5);
+  }
+
+  .missionText p {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-4);
+  }
+
+  .missionValues {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+
+  .valueCard {
+    padding: var(--space-6);
+    background: var(--bg);
+    border-radius: var(--radius-xl);
+  }
+
+  .valueIcon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(8, 145, 178, 0.1);
+    border-radius: var(--radius-lg);
+    color: var(--primary);
+    margin-bottom: var(--space-4);
+  }
+
+  .valueCard h3 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-3);
+  }
+
+  .valueCard p {
+    font-size: var(--text-base);
+  }
+
+  @media (max-width: 1024px) {
+    .aboutContent {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+
+    .missionValues {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

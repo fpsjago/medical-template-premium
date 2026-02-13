@@ -1,0 +1,146 @@
+---
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<section class="cta">
+  <div class="ctaBg">
+    <svg class="blob" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+      <path fill="currentColor" d="M423,317Q393,384,326,413.5Q259,443,185,424Q111,405,67,360Q23,315,36.5,250Q50,185,100,147Q150,109,220.5,82Q291,55,351.5,101.5Q412,148,441.5,199Q471,250,423,317Z"/>
+    </svg>
+  </div>
+
+  <div class="container">
+    <div class="ctaContent" data-reveal="scale">
+      <h2>Ready to Prioritize Your Health?</h2>
+      <p>Schedule your appointment today and take the first step towards better health and wellness.</p>
+      <div class="ctaActions">
+        <a href={`${baseUrl}contact/`} class="btnPrimary large">
+          Book Appointment
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+        <a href="tel:+15551234567" class="btnGhost large">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          Call (555) 123-4567
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    position: relative;
+    padding: var(--space-16) 0;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    overflow: hidden;
+  }
+
+  .ctaBg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.15;
+  }
+
+  .blob {
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    animation: float 20s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+    33% { transform: translate(-45%, -55%) rotate(5deg); }
+    66% { transform: translate(-55%, -45%) rotate(-5deg); }
+  }
+
+  .ctaContent {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .cta h2 {
+    color: white;
+    margin-bottom: var(--space-5);
+  }
+
+  .cta p {
+    font-size: var(--text-xl);
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 auto var(--space-8);
+  }
+
+  .ctaActions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .btnPrimary, .btnGhost {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    transition: all 0.3s var(--ease-out);
+    cursor: pointer;
+  }
+
+  .btnPrimary.large, .btnGhost.large {
+    padding: var(--space-4) var(--space-6);
+    font-size: var(--text-lg);
+  }
+
+  .btnPrimary {
+    background: white;
+    color: var(--primary);
+  }
+
+  .btnPrimary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .btnGhost {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+  }
+
+  .btnGhost:hover {
+    background: white;
+    color: var(--primary);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 640px) {
+    .ctaActions {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .btnPrimary.large,
+    .btnGhost.large {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

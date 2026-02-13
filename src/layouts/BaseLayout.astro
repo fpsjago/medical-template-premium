@@ -1,0 +1,113 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "Professional medical care with compassion and expertise. Your health is our priority."
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+
+    <ViewTransitions />
+
+    <!-- Google Fonts: Plus Jakarta Sans + Source Serif 4 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <slot />
+
+    <!-- Lenis Smooth Scroll + GSAP ScrollTrigger -->
+    <script>
+      import Lenis from 'lenis';
+      import { gsap } from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      function initPremiumScrolling() {
+        // Initialize Lenis smooth scroll
+        const lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          orientation: 'vertical',
+          smoothWheel: true,
+          wheelMultiplier: 1,
+          smoothTouch: false,
+          touchMultiplier: 2,
+        });
+
+        // Connect Lenis to GSAP ScrollTrigger
+        lenis.on('scroll', ScrollTrigger.update);
+
+        gsap.ticker.add((time) => {
+          lenis.raf(time * 1000);
+        });
+
+        gsap.ticker.lagSmoothing(0);
+
+        // Store for cleanup
+        (window as any).lenis = lenis;
+      }
+
+      // Initialize on load
+      document.addEventListener('DOMContentLoaded', initPremiumScrolling);
+      document.addEventListener('astro:page-load', initPremiumScrolling);
+    </script>
+
+    <!-- Scroll Reveal Script — Repeating Animations -->
+    <script is:inline>
+      // Initialize scroll reveals with IntersectionObserver (repeating on scroll)
+      function initScrollReveals() {
+        // Disconnect previous observer if exists
+        if (window.scrollRevealObserver) {
+          window.scrollRevealObserver.disconnect();
+        }
+
+        window.scrollRevealObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                // Add visible class when entering viewport
+                entry.target.classList.add('visible');
+              } else {
+                // Remove visible class when leaving viewport (enables re-trigger)
+                entry.target.classList.remove('visible');
+              }
+            });
+          },
+          {
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
+          }
+        );
+
+        document.querySelectorAll('[data-reveal], [data-reveal-stagger]').forEach((el) => {
+          window.scrollRevealObserver.observe(el);
+        });
+      }
+
+      // Run on initial load
+      document.addEventListener('DOMContentLoaded', initScrollReveals);
+
+      // Re-run after View Transitions
+      document.addEventListener('astro:page-load', initScrollReveals);
+    </script>
+  </body>
+</html>

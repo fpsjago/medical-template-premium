@@ -1,0 +1,230 @@
+/* ═══════════════════════════════════════════
+   GLOBAL STYLES — Medical Template
+   ═══════════════════════════════════════════ */
+
+/* Reset & Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* COLORS — Medical Industry: Teal + Orange */
+  --bg: #fafaf9;              /* 60% — Warm off-white */
+  --surface: #ffffff;         /* Cards, nav */
+  --primary: #0891b2;         /* 30% — Teal (trust, calm) */
+  --accent: #f97316;          /* 10% — Warm orange (care) */
+  --text: #1c1917;            /* Near black */
+  --text-muted: #78716c;      /* Warm gray */
+  --border: #e7e5e4;          /* Subtle borders */
+  --success: #059669;
+  --warning: #f59e0b;
+  --error: #dc2626;
+
+  /* SPACING — 8px base grid */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.5rem;    /* 24px */
+  --space-6: 2rem;      /* 32px */
+  --space-8: 3rem;      /* 48px */
+  --space-10: 4rem;     /* 64px */
+  --space-12: 6rem;     /* 96px */
+  --space-16: 8rem;     /* 128px */
+
+  /* BORDER RADIUS — Varied, not uniform */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-full: 9999px;
+
+  /* TYPOGRAPHY SCALE — Fluid with clamp() */
+  --text-xs: clamp(0.7rem, 0.65rem + 0.25vw, 0.75rem);
+  --text-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.875rem);
+  --text-base: clamp(0.9rem, 0.85rem + 0.25vw, 1rem);
+  --text-lg: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-xl: clamp(1.15rem, 1.05rem + 0.5vw, 1.25rem);
+  --text-2xl: clamp(1.3rem, 1.15rem + 0.75vw, 1.5rem);
+  --text-3xl: clamp(1.6rem, 1.35rem + 1.25vw, 1.875rem);
+  --text-4xl: clamp(2rem, 1.6rem + 2vw, 2.25rem);
+  --text-5xl: clamp(2.5rem, 1.9rem + 3vw, 3rem);
+  --text-6xl: clamp(3rem, 2.2rem + 4vw, 3.75rem);
+
+  /* EASING FUNCTIONS */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-snappy: cubic-bezier(0.5, 0, 0.1, 1);
+
+  /* FONTS */
+  --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body: 'Source Serif 4', Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.7;
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+h1 { font-size: var(--text-6xl); }
+h2 { font-size: var(--text-5xl); }
+h3 { font-size: var(--text-4xl); }
+h4 { font-size: var(--text-3xl); }
+h5 { font-size: var(--text-2xl); }
+h6 { font-size: var(--text-xl); }
+
+p {
+  font-size: var(--text-base);
+  color: var(--text-muted);
+  max-width: 70ch;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.2s var(--ease-out);
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  font-family: var(--font-heading);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--space-4);
+  }
+}
+
+/* Scroll Reveals — Slower, more enjoyable transitions */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 1.2s var(--ease-out), transform 1.2s var(--ease-out);
+}
+
+[data-reveal].visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-reveal="left"] {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: opacity 1.2s var(--ease-out), transform 1.2s var(--ease-out);
+}
+
+[data-reveal="left"].visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+[data-reveal="right"] {
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 1.2s var(--ease-out), transform 1.2s var(--ease-out);
+}
+
+[data-reveal="right"].visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+[data-reveal="scale"] {
+  opacity: 0;
+  transform: scale(0.88);
+  transition: opacity 1.2s var(--ease-out), transform 1.2s var(--ease-out);
+}
+
+[data-reveal="scale"].visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Stagger children — Slower with more delay between items */
+[data-reveal-stagger].visible > *:nth-child(1) { transition-delay: 0ms; }
+[data-reveal-stagger].visible > *:nth-child(2) { transition-delay: 150ms; }
+[data-reveal-stagger].visible > *:nth-child(3) { transition-delay: 300ms; }
+[data-reveal-stagger].visible > *:nth-child(4) { transition-delay: 450ms; }
+[data-reveal-stagger].visible > *:nth-child(5) { transition-delay: 600ms; }
+[data-reveal-stagger].visible > *:nth-child(6) { transition-delay: 750ms; }
+
+[data-reveal-stagger] > * {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
+}
+
+[data-reveal-stagger].visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Selection */
+::selection {
+  background: var(--primary);
+  color: white;
+}
+
+/* Focus Visible */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}

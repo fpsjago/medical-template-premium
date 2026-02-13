@@ -1,0 +1,123 @@
+---
+import { getCollection } from 'astro:content';
+
+const team = await getCollection('team');
+const sortedTeam = team.sort((a, b) => a.data.order - b.data.order);
+---
+
+<section class="team">
+  <div class="container">
+    <div class="sectionHeader" data-reveal>
+      <h2>Meet Our Expert Team</h2>
+      <p>Board-certified physicians dedicated to your health and wellness</p>
+    </div>
+
+    <div class="teamGrid" data-reveal-stagger>
+      {sortedTeam.map((member) => (
+        <article class="teamCard">
+          <div class="teamImage">
+            <img src={member.data.image} alt={member.data.name} loading="lazy" />
+          </div>
+          <div class="teamInfo">
+            <h3>{member.data.name}</h3>
+            <p class="role">{member.data.role}</p>
+            {member.data.specialty && <p class="specialty">{member.data.specialty}</p>}
+            <p class="bio">{member.data.bio}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .team {
+    padding: var(--space-16) 0;
+    background: var(--bg);
+  }
+
+  .sectionHeader {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto var(--space-12);
+  }
+
+  .sectionHeader h2 {
+    margin-bottom: var(--space-4);
+  }
+
+  .sectionHeader p {
+    font-size: var(--text-xl);
+    margin: 0 auto;
+  }
+
+  .teamGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-8);
+  }
+
+  .teamCard {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+  }
+
+  .teamCard:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  .teamImage {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--border);
+  }
+
+  .teamImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s var(--ease-out);
+  }
+
+  .teamCard:hover .teamImage img {
+    transform: scale(1.05);
+  }
+
+  .teamInfo {
+    padding: var(--space-6);
+  }
+
+  .teamInfo h3 {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-2);
+  }
+
+  .role {
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: var(--space-1);
+  }
+
+  .specialty {
+    font-size: var(--text-sm);
+    color: var(--accent);
+    margin-bottom: var(--space-4);
+    font-style: italic;
+  }
+
+  .bio {
+    font-size: var(--text-base);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 640px) {
+    .teamGrid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

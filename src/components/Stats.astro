@@ -1,0 +1,79 @@
+---
+---
+
+<section class="stats">
+  <div class="container">
+    <div class="statsGrid" data-reveal-stagger>
+      <div class="statCard">
+        <div class="statValue">5000+</div>
+        <div class="statLabel">Patients Served</div>
+      </div>
+      <div class="statCard">
+        <div class="statValue">15+</div>
+        <div class="statLabel">Years Experience</div>
+      </div>
+      <div class="statCard">
+        <div class="statValue">98%</div>
+        <div class="statLabel">Satisfaction Rate</div>
+      </div>
+      <div class="statCard">
+        <div class="statValue">24/7</div>
+        <div class="statLabel">Emergency Support</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .stats {
+    padding: var(--space-12) 0;
+    background: var(--surface);
+  }
+
+  .statsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-6);
+  }
+
+  .statCard {
+    text-align: center;
+    padding: var(--space-6);
+  }
+
+  .statValue {
+    font-family: var(--font-heading);
+    font-size: var(--text-6xl);
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1;
+    margin-bottom: var(--space-3);
+  }
+
+  .statLabel {
+    font-size: var(--text-base);
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  @media (max-width: 1024px) {
+    .statsGrid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .statsGrid {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+
+    .statCard {
+      padding: var(--space-4);
+    }
+
+    .statValue {
+      font-size: var(--text-5xl);
+    }
+  }
+</style>
