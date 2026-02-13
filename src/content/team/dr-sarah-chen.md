@@ -3,7 +3,7 @@ name: "Dr. Sarah Chen"
 role: "Medical Director"
 specialty: "Family Medicine"
 bio: "Dr. Chen brings over 15 years of experience in family medicine, with a special interest in preventive care and chronic disease management."
-image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&h=1000&fit=crop"
+image: "https://images.unsplash.com/photo-1651008376811-b90baee60c1f?w=800&h=1000&fit=crop"
 order: 1
 credentials: ["MD - Harvard Medical School", "Board Certified Family Medicine", "Fellowship in Preventive Medicine"]
 ---
